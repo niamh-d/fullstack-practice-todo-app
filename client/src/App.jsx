@@ -1,15 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 export default function App() {
   const inputRef = useRef(null);
 
+  const [tasks, setTasks] = useState([]);
+
   useEffect(() => {
     fetch("/api/todos")
       .then(res => res.json())
       .then(json => {
-        // upon success, update tasks
         console.log(json);
+        setTasks(json);
       })
       .catch(error => {
         // upon failure, show error message
@@ -31,10 +33,10 @@ export default function App() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ title: task, statusCompleted: 0 })
+        body: JSON.stringify({ title: task, isCompleted: 0 })
       });
       const data = await res.json();
-      // do something with data
+      setTasks(data);
     } catch (err) {
       console.error(err);
     }
@@ -53,6 +55,8 @@ export default function App() {
     // upon failure, show error message
   };
 
+  const taskTitles = tasks.map(task => task.title);
+
   return (
     <div>
       <h1>Fullstack Practice Todo App</h1>
@@ -65,6 +69,11 @@ export default function App() {
           Submit
         </button>
       </form>
+      <ul>
+        {taskTitles.map(title => (
+          <li>{title}</li>
+        ))}
+      </ul>
     </div>
   );
 }

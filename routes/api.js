@@ -6,27 +6,32 @@ router.get("/", (req, res) => {
   res.send("Welcome to the API");
 });
 
-router.get("/todos", (req, res) => {
-  // Send back the full list of items
-  db("SELECT * FROM items ORDER BY id ASC;")
-    .then(results => {
-      res.send(results.data);
-    })
-    .catch(err => res.status(500).send(err));
+router.get("/todos", async (req, res) => {
+  try {
+    // Send back the full list of items
+    const results = await db("SELECT * FROM tasks ORDER BY id ASC;");
+
+    res.send(results.data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-router.post("/todos", (req, res) => {
-  // The request's body is available in req.body
-  // If the query is successfull you should send back the full list of items
-  const { title, statusCompleted } = req.body;
-  db(
-    `INSERT INTO items (text, complete) VALUES ('${title}', '${statusCompleted}')`
-  )
-    .then(results => {
-      res.send(results.data);
-    })
-    .catch(err => res.status(500).send(err));
-  //
+router.post("/todos", async (req, res) => {
+  try {
+    // The request's body is available in req.body
+    // If the query is successfull you should send back the full list of items
+    const { title, isCompleted } = req.body;
+    await db(
+      `INSERT INTO tasks (title, completed) VALUES ('${title}', '${isCompleted}')`
+    );
+
+    const results = await db("SELECT * FROM tasks ORDER BY id ASC;");
+
+    res.send(results.data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
 router.put("/todos/:todo_id", (req, res) => {
