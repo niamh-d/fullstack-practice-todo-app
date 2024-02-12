@@ -18,7 +18,14 @@ router.get("/todos", (req, res) => {
 router.post("/todos", (req, res) => {
   // The request's body is available in req.body
   // If the query is successfull you should send back the full list of items
-  // Add your code here
+  const { title, statusCompleted } = req.body;
+  db(
+    `INSERT INTO items (text, complete) VALUES ('${title}', '${statusCompleted}')`
+  )
+    .then(results => {
+      res.send(results.data);
+    })
+    .catch(err => res.status(500).send(err));
   //
 });
 

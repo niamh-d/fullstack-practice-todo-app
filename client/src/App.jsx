@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import "./App.css";
 
 export default function App() {
-  let [input, setInput] = useState("");
-  let [tasks, setTasks] = useState([]);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     fetch("/api/todos")
@@ -17,24 +16,30 @@ export default function App() {
       });
   }, []);
 
-  const handleChange = event => {
-    setInput(event.target.value);
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    addTask(inputRef.current.value);
+    console.log(inputRef.current.value);
+    inputRef.current.value = null;
   };
 
-  const handleSubmit = event => {
-    event.preventDefault();
-  };
-
-  const addTask = () => {
-    fetch("/api/todos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ input: input })
-    });
+  async function addTask(task) {
+    try {
+      const res = await fetch("/api/todos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ title: task, statusCompleted: 0 })
+      });
+      const data = await res.json();
+      // do something with data
+    } catch (err) {
+      console.error(err);
+    }
     // Continue fetch request here
-  };
+  }
 
   const updateTask = id => {
     // update task from database
@@ -51,10 +56,10 @@ export default function App() {
   return (
     <div>
       <h1>Fullstack Practice Todo App</h1>
-      <form onSubmit={e => handleSubmit(e)}>
+      <form onSubmit={handleSubmit}>
         <label>
           New Task:
-          <input onChange={e => handleChange(e)} />
+          <input ref={inputRef} />
         </label>
         <button type="submit" className="btn btn-primary">
           Submit
