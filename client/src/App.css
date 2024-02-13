@@ -16,3 +16,15 @@
     @apply p-2 ml-3 mr-3;
   }
 }
+
+@layer components {
+  .task {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .icons-box {
+    display: flex;
+    gap: 1rem;
+  }
+}

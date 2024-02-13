@@ -1,6 +1,7 @@
 import React from "react";
 
 import { useTasks } from "../contexts/TasksContext";
+import Task from "./Task";
 
 const TasksList = () => {
   const { tasksArr } = useTasks();
@@ -9,7 +10,7 @@ const TasksList = () => {
     <div>
       <ul>
         {tasksArr.map(task => (
-          <li key={task.id}>{task.title}</li>
+          <Task key={task.id} title={task.title} />
         ))}
       </ul>
     </div>
