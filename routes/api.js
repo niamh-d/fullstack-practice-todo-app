@@ -8,7 +8,6 @@ router.get("/", (req, res) => {
 
 router.get("/todos", async (req, res) => {
   try {
-    // Send back the full list of items
     const results = await db("SELECT * FROM tasks ORDER BY id ASC;");
 
     res.send(results.data);
@@ -19,8 +18,6 @@ router.get("/todos", async (req, res) => {
 
 router.post("/todos", async (req, res) => {
   try {
-    // The request's body is available in req.body
-    // If the query is successfull you should send back the full list of items
     const { title, isCompleted } = req.body;
     await db(
       `INSERT INTO tasks (title, completed) VALUES ('${title}', '${isCompleted}')`
@@ -34,18 +31,24 @@ router.post("/todos", async (req, res) => {
   }
 });
 
-router.put("/todos/:todo_id", (req, res) => {
-  // The request's body is available in req.body
-  // URL params are available in req.params
-  // If the query is successfull you should send back the full list of items
-  // Add your code here
-  //
+router.put("/todos/:id", async (req, res) => {
+  try {
+    await db(`UPDATE tasks SET completed = '1' WHERE id = ${req.params.id};`);
+
+    res.send({ message: "updated" });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
-router.delete("/todos/:todo_id", (req, res) => {
-  // URL params are available in req.params
-  // Add your code here
-  //
+router.delete("/todos/:id", async (req, res) => {
+  try {
+    await db(`DELETE FROM tasks WHERE id = ${req.params.id};`);
+
+    res.send({ message: "deleted" });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 module.exports = router;

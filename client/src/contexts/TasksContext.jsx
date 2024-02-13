@@ -97,6 +97,30 @@ function TasksProvider({ children }) {
     }
   }
 
+  async function deleteTask(id) {
+    try {
+      const res = await fetch(`/api/todos/${id}`, {
+        method: "DELETE"
+      });
+      const message = await res.json();
+      console.log(message);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function completeTask(id) {
+    try {
+      const res = await fetch(`/api/todos/${id}`, {
+        method: "PUT"
+      });
+      const message = await res.json();
+      console.log(message);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <TasksContext.Provider
       value={{
@@ -104,7 +128,9 @@ function TasksProvider({ children }) {
         taskToDeleteId,
         errorMessage,
         isError,
-        addTask
+        addTask,
+        deleteTask,
+        completeTask
       }}
     >
       {children}

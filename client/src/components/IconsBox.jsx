@@ -4,14 +4,21 @@ import DoneIcon from "@mui/icons-material/Done";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import Tooltip from "@mui/material/Tooltip";
 
-const IconsBox = () => {
+import { useTasks } from "../contexts/TasksContext";
+
+const IconsBox = ({ id }) => {
+  const { deleteTask, completeTask } = useTasks();
+
+  const deleteHandler = () => deleteTask(id);
+  const completeHandler = () => completeTask(id);
+
   return (
     <div className="icons-box">
       <Tooltip title="Mark as completed">
-        <DoneIcon />
+        <DoneIcon onClick={completeHandler} />
       </Tooltip>
       <Tooltip title="Delete task">
-        <DeleteForeverOutlinedIcon />
+        <DeleteForeverOutlinedIcon onClick={deleteHandler} />
       </Tooltip>
     </div>
   );
