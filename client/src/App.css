@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  label {
+    @apply font-semibold text-xl;
+  }
+
+  form {
+    @apply p-10;
+  }
+
+  input {
+    border-radius: 10px;
+    @apply p-2 ml-3 mr-3;
+  }
+}
