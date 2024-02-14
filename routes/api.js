@@ -18,10 +18,8 @@ router.get("/todos", async (req, res) => {
 
 router.post("/todos", async (req, res) => {
   try {
-    const { title, isCompleted } = req.body;
-    await db(
-      `INSERT INTO tasks (title, completed) VALUES ('${title}', '${isCompleted}')`
-    );
+    const { title } = req.body;
+    await db(`INSERT INTO tasks (title, completed) VALUES ('${title}', false)`);
 
     const results = await db("SELECT * FROM tasks ORDER BY id ASC;");
 
@@ -33,11 +31,13 @@ router.post("/todos", async (req, res) => {
 
 router.put("/todos/:id", async (req, res) => {
   try {
-    await db(`UPDATE tasks SET completed = '1' WHERE id = ${req.params.id};`);
+    await db(`UPDATE tasks SET completed = true WHERE id = ${req.params.id};`);
 
-    res.send({ message: "updated" });
+    const results = await db("SELECT * FROM tasks ORDER BY id ASC;");
+
+    res.send(results.data);
   } catch (err) {
-    console.error(err);
+    res.status(500).send(err);
   }
 });
 
@@ -45,9 +45,11 @@ router.delete("/todos/:id", async (req, res) => {
   try {
     await db(`DELETE FROM tasks WHERE id = ${req.params.id};`);
 
-    res.send({ message: "deleted" });
+    const results = await db("SELECT * FROM tasks ORDER BY id ASC;");
+
+    res.send(results.data);
   } catch (err) {
-    console.error(err);
+    res.status(500).send(err);
   }
 });
 

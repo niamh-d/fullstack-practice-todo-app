@@ -23,12 +23,9 @@ function reducer(state, action) {
         tasksArr: [action.payload, ...state.tasksArr]
       };
     case "MARK_AS_COMPLETE":
-      const touchedToDo = state.toDosArr.find(
-        todo => todo.id === action.payload.id
-      );
       return {
         ...state,
-        tasksArr: [...state.tasksArr, { ...touchedToDo, isCompleted: 1 }]
+        tasksArr: action.payload
       };
     case "SET_DELETE_ID":
       return {
@@ -38,9 +35,7 @@ function reducer(state, action) {
     case "DELETE_TASK":
       return {
         ...state,
-        projects: state.tasksArr.filter(
-          task => task.id !== state.taskToDeleteId
-        ),
+        tasksArr: action.payload,
         taskToDeleteId: null
       };
     case "ERROR":
@@ -84,7 +79,7 @@ function TasksProvider({ children }) {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ title: task, isCompleted: 0 })
+        body: JSON.stringify({ title: task })
       });
       const data = await res.json();
       dispatch({ type: "SET_TASKS", payload: data });
@@ -102,8 +97,8 @@ function TasksProvider({ children }) {
       const res = await fetch(`/api/todos/${id}`, {
         method: "DELETE"
       });
-      const message = await res.json();
-      console.log(message);
+      const data = await res.json();
+      dispatch({ type: "DELETE_TASK", payload: data });
     } catch (err) {
       console.error(err);
     }
@@ -114,8 +109,8 @@ function TasksProvider({ children }) {
       const res = await fetch(`/api/todos/${id}`, {
         method: "PUT"
       });
-      const message = await res.json();
-      console.log(message);
+      const data = await res.json();
+      dispatch({ type: "MARK_AS_COMPLETE", payload: data });
     } catch (err) {
       console.error(err);
     }
