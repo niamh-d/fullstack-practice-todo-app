@@ -1,12 +1,13 @@
 import React from "react";
 
-const AddModal = () => {
+const FormInfoModal = () => {
   return (
-    <dialog id="modal-add" className="modal modal-bottom sm:modal-middle">
+    <dialog id="modal-form-info" className="modal modal-bottom sm:modal-middle">
       <div className="modal-box">
-        <h3 className="font-bold text-2xl">That's added!</h3>
+        <h3 className="font-bold text-2xl">Oops!</h3>
         <p className="py-4 text-xl">
-          Awesome! Your new task has been added! Now get back to work!
+          Your task needs a title of length 3 characters or greater. Please try
+          again!
         </p>
         <div className="modal-action">
           <form method="dialog">
@@ -18,4 +19,4 @@ const AddModal = () => {
   );
 };
 
-export default AddModal;
+export default FormInfoModal;

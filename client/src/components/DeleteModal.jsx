@@ -12,8 +12,8 @@ const DeleteModal = () => {
     <dialog id="modal-delete" className="modal modal-bottom sm:modal-middle">
       <div className="modal-box">
         <h3 className="font-bold text-2xl">Are you sure?</h3>
-        <p className="py-4 text-lg">
-          This destructive action cannot be undone. Choose wisely.
+        <p className="py-4 text-xl">
+          This destructive action cannot be undone. Choose wisely!...
         </p>
         <div className="modal-action">
           <form method="dialog">

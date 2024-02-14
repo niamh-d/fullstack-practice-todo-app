@@ -542,6 +542,72 @@ html {
   --bc: 0.169617 0.001664 17.32068;
 }
 
+[data-theme="garden"] {
+  color-scheme: light;
+  --b2: 0.864453 0.002011 17.197414;
+  --b3: 0.799386 0.00186 17.197414;
+  --in: 0.7206 0.191 231.6;
+  --su: 64.8% 0.15 160;
+  --wa: 0.8471 0.199 83.87;
+  --er: 0.7176 0.221 22.18;
+  --sc: 0.89699 0.022197 355.095988;
+  --ac: 0.112547 0.010859 154.390187;
+  --inc: 0 0 0;
+  --suc: 0 0 0;
+  --wac: 0 0 0;
+  --erc: 0 0 0;
+  --rounded-box: 1rem;
+  --rounded-btn: 0.5rem;
+  --rounded-badge: 1.9rem;
+  --animation-btn: 0.25s;
+  --animation-input: 0.2s;
+  --btn-focus-scale: 0.95;
+  --border-btn: 1px;
+  --tab-border: 1px;
+  --tab-radius: 0.5rem;
+  --p: 0.6245 0.278 3.83636;
+  --pc: 1 0 0;
+  --s: 0.484952 0.110985 355.095988;
+  --a: 0.562735 0.054297 154.390187;
+  --n: 0.241559 0.049362 89.070594;
+  --nc: 0.929519 0.002163 17.197414;
+  --b1: 0.929519 0.002163 17.197414;
+  --bc: 0.169617 0.001664 17.32068;
+}
+
+[data-theme="forest"] {
+  color-scheme: dark;
+  --b2: 0.17522 0.007709 17.911578;
+  --b3: 0.162032 0.007129 17.911578;
+  --in: 0.7206 0.191 231.6;
+  --su: 64.8% 0.15 160;
+  --wa: 0.8471 0.199 83.87;
+  --er: 0.7176 0.221 22.18;
+  --bc: 0.837682 0.001658 17.911578;
+  --sc: 0.139553 0.027077 168.327128;
+  --ac: 0.141257 0.02389 185.713193;
+  --nc: 0.861397 0.007806 171.364646;
+  --inc: 0 0 0;
+  --suc: 0 0 0;
+  --wac: 0 0 0;
+  --erc: 0 0 0;
+  --rounded-box: 1rem;
+  --rounded-badge: 1.9rem;
+  --animation-btn: 0.25s;
+  --animation-input: 0.2s;
+  --btn-focus-scale: 0.95;
+  --border-btn: 1px;
+  --tab-border: 1px;
+  --tab-radius: 0.5rem;
+  --p: 0.686283 0.185567 148.958922;
+  --pc: 0 0 0;
+  --s: 0.697764 0.135385 168.327128;
+  --a: 0.706285 0.119451 185.713193;
+  --n: 0.306985 0.039032 171.364646;
+  --b1: 0.188409 0.00829 17.911578;
+  --rounded-btn: 1.9rem;
+}
+
 body {
   padding: 2.5rem;
 }
@@ -558,13 +624,27 @@ h1 {
   font-weight: 700;
 }
 
-button {
-  display: block;
-}
-
 main {
   margin: 1.25rem;
   padding: 1.25rem;
+}
+
+label {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+}
+
+form {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+input {
+  border-radius: 10px;
+  margin-left: 0.75rem;
+  margin-right: 2.5rem;
+  padding: 0.5rem;
 }
 
 *,
@@ -721,12 +801,6 @@ main {
 .btn[disabled],
 .btn:disabled {
   pointer-events: none;
-}
-
-.btn-square {
-  height: 3rem;
-  width: 3rem;
-  padding: 0px;
 }
 
 :where(.btn:is(input[type="checkbox"])),
@@ -981,6 +1055,32 @@ main {
   overflow: hidden;
 }
 
+.progress {
+  position: relative;
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  overflow: hidden;
+  height: 0.5rem;
+  border-radius: var(--rounded-box, 1rem);
+  background-color: var(--fallback-bc, oklch(var(--bc) / 0.2));
+}
+
+.stats {
+  display: inline-grid;
+  border-radius: var(--rounded-box, 1rem);
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b1, oklch(var(--b1) / var(--tw-bg-opacity)));
+  --tw-text-opacity: 1;
+  color: var(--fallback-bc, oklch(var(--bc) / var(--tw-text-opacity)));
+}
+
+:where(.stats) {
+  grid-auto-flow: column;
+  overflow-x: auto;
+}
+
 .btm-nav > * .label {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -1004,6 +1104,10 @@ main {
 
   .btn-secondary {
     --btn-color: var(--fallback-s);
+  }
+
+  .btn-neutral {
+    --btn-color: var(--fallback-n);
   }
 }
 
@@ -1055,12 +1159,22 @@ main {
   .btn-secondary {
     --btn-color: var(--s);
   }
+
+  .btn-neutral {
+    --btn-color: var(--n);
+  }
 }
 
 .btn-secondary {
   --tw-text-opacity: 1;
   color: var(--fallback-sc, oklch(var(--sc) / var(--tw-text-opacity)));
   outline-color: var(--fallback-s, oklch(var(--s) / 1));
+}
+
+.btn-neutral {
+  --tw-text-opacity: 1;
+  color: var(--fallback-nc, oklch(var(--nc) / var(--tw-text-opacity)));
+  outline-color: var(--fallback-n, oklch(var(--n) / 1));
 }
 
 .btn.glass {
@@ -1310,6 +1424,66 @@ main {
   }
 }
 
+.progress::-moz-progress-bar {
+  border-radius: var(--rounded-box, 1rem);
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-bc, oklch(var(--bc) / var(--tw-bg-opacity)));
+}
+
+.progress-success::-moz-progress-bar {
+  border-radius: var(--rounded-box, 1rem);
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-su, oklch(var(--su) / var(--tw-bg-opacity)));
+}
+
+.progress:indeterminate {
+  --progress-color: var(--fallback-bc, oklch(var(--bc) / 1));
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--progress-color) -1%,
+    var(--progress-color) 10%,
+    transparent 10%,
+    transparent 90%
+  );
+  background-size: 200%;
+  background-position-x: 15%;
+  animation: progress-loading 5s ease-in-out infinite;
+}
+
+.progress-success:indeterminate {
+  --progress-color: var(--fallback-su, oklch(var(--su) / 1));
+}
+
+.progress::-webkit-progress-bar {
+  border-radius: var(--rounded-box, 1rem);
+  background-color: transparent;
+}
+
+.progress::-webkit-progress-value {
+  border-radius: var(--rounded-box, 1rem);
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-bc, oklch(var(--bc) / var(--tw-bg-opacity)));
+}
+
+.progress-success::-webkit-progress-value {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-su, oklch(var(--su) / var(--tw-bg-opacity)));
+}
+
+.progress:indeterminate::-moz-progress-bar {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--progress-color) -1%,
+    var(--progress-color) 10%,
+    transparent 10%,
+    transparent 90%
+  );
+  background-size: 200%;
+  background-position-x: 15%;
+  animation: progress-loading 5s ease-in-out infinite;
+}
+
 @keyframes progress-loading {
   50% {
     background-position-x: -115%;
@@ -1357,6 +1531,19 @@ main {
   }
 }
 
+:where(.stats) > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-x-reverse: 0;
+  border-right-width: calc(1px * var(--tw-divide-x-reverse));
+  border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
+  --tw-divide-y-reverse: 0;
+  border-top-width: calc(0px * calc(1 - var(--tw-divide-y-reverse)));
+  border-bottom-width: calc(0px * var(--tw-divide-y-reverse));
+}
+
+:is([dir="rtl"] .stats > :not([hidden]) ~ :not([hidden])) {
+  --tw-divide-x-reverse: 1;
+}
+
 @keyframes toast-pop {
   0% {
     transform: scale(0.9);
@@ -1377,27 +1564,9 @@ main {
   font-size: 0.875rem;
 }
 
-.btn-square:where(.btn-xs) {
-  height: 1.5rem;
-  width: 1.5rem;
-  padding: 0px;
-}
-
 .btn-square:where(.btn-sm) {
   height: 2rem;
   width: 2rem;
-  padding: 0px;
-}
-
-.btn-square:where(.btn-md) {
-  height: 3rem;
-  width: 3rem;
-  padding: 0px;
-}
-
-.btn-square:where(.btn-lg) {
-  height: 4rem;
-  width: 4rem;
   padding: 0px;
 }
 
@@ -1457,37 +1626,75 @@ main {
   border-bottom-left-radius: 0px;
 }
 
-label {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 600;
+.invisible {
+  visibility: hidden;
 }
 
-form {
+.mb-10 {
   margin-bottom: 2.5rem;
 }
 
-input {
-  border-radius: 10px;
+.ml-3 {
   margin-left: 0.75rem;
-  margin-right: 0.75rem;
-  padding: 0.5rem;
-}
-
-.mr-2 {
-  margin-right: 0.5rem;
 }
 
 .mr-3 {
   margin-right: 0.75rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .flex {
   display: flex;
 }
 
-.gap-1 {
-  gap: 0.25rem;
+.w-64 {
+  width: 16rem;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.self-center {
+  align-self: center;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.border-b-4 {
+  border-bottom-width: 4px;
+}
+
+.border-solid {
+  border-style: solid;
+}
+
+.border-white {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
+}
+
+.bg-base-200 {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b2, oklch(var(--b2) / var(--tw-bg-opacity)));
+}
+
+.bg-error {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-er, oklch(var(--er) / var(--tw-bg-opacity)));
+}
+
+.p-4 {
+  padding: 1rem;
 }
 
 .py-4 {
@@ -1510,12 +1717,23 @@ input {
   line-height: 1.25rem;
 }
 
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
 
 .line-through {
   text-decoration-line: line-through;
+}
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
+    var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate)
+    var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 @media (min-width: 640px) {

@@ -7,7 +7,7 @@ const TasksList = () => {
   const { tasksArr } = useTasks();
 
   return (
-    <div>
+    <div className="tasks-container">
       <ul className="task-list">
         {tasksArr.map(task => (
           <Task data={task} key={task.id} />

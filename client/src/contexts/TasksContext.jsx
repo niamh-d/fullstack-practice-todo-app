@@ -5,12 +5,14 @@ const TasksContext = createContext();
 
 let modalAdd;
 let modalDelete;
+let modalError;
 
 const initialState = {
   tasksArr: [],
   taskToDeleteId: null,
   isError: false,
-  errorMessage: null
+  errorMessage: null,
+  isDark: null
 };
 
 function reducer(state, action) {
@@ -32,10 +34,18 @@ function reducer(state, action) {
         taskToDeleteId: null
       };
     case "ERROR":
+      modalError = document.getElementById("modal-error");
+      modalError.showModal();
       return {
         ...state,
         isError: true,
         errorMessage: action.payload
+      };
+    case "TOGGLE_THEME":
+      const mode = !state.isDark;
+      return {
+        ...state,
+        isDark: mode
       };
     default:
       throw new Error("Unknown action type");
@@ -44,7 +54,7 @@ function reducer(state, action) {
 
 function TasksProvider({ children }) {
   const [
-    { tasksArr, errorMessage, isError, taskToDeleteId },
+    { tasksArr, errorMessage, isError, taskToDeleteId, isDark },
     dispatch
   ] = useReducer(reducer, initialState);
 
@@ -64,6 +74,10 @@ function TasksProvider({ children }) {
     }
     fetchTasks();
   }, []);
+
+  function toggleTheme() {
+    dispatch({ type: "TOGGLE_THEME" });
+  }
 
   function toggleDeleteId(id = null) {
     dispatch({ type: "TOGGLE_DELETE_ID", payload: id });
@@ -137,7 +151,9 @@ function TasksProvider({ children }) {
         addTask,
         toggleDeleteId,
         updateTaskStatus,
-        deleteTask
+        deleteTask,
+        isDark,
+        toggleTheme
       }}
     >
       {children}
