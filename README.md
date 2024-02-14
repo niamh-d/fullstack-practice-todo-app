@@ -1,5 +1,13 @@
 # Full Stack To Do App
 
+## What
+
+React-Express-MySQL To Do App
+
+React and Tailwind in front, Express in back, MySQL server
+
+[Demo](https://twitter.com/niamh_codes/status/1757821441511223680)
+
 ## Setup
 
 ### Dependencies
