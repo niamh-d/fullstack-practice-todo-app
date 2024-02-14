@@ -3,6 +3,9 @@ import { createContext, useContext, useReducer, useEffect } from "react";
 
 const TasksContext = createContext();
 
+let modalAdd;
+let modalDelete;
+
 const initialState = {
   tasksArr: [],
   taskToDeleteId: null,
@@ -17,17 +20,7 @@ function reducer(state, action) {
         ...state,
         tasksArr: action.payload
       };
-    case "ADD_NEW_TASK":
-      return {
-        ...state,
-        tasksArr: [action.payload, ...state.tasksArr]
-      };
-    case "MARK_AS_COMPLETE":
-      return {
-        ...state,
-        tasksArr: action.payload
-      };
-    case "SET_DELETE_ID":
+    case "TOGGLE_DELETE_ID":
       return {
         ...state,
         taskToDeleteId: action.payload
@@ -51,7 +44,7 @@ function reducer(state, action) {
 
 function TasksProvider({ children }) {
   const [
-    { tasksArr, taskToDeleteId, errorMessage, isError },
+    { tasksArr, errorMessage, isError, taskToDeleteId },
     dispatch
   ] = useReducer(reducer, initialState);
 
@@ -72,6 +65,15 @@ function TasksProvider({ children }) {
     fetchTasks();
   }, []);
 
+  function toggleDeleteId(id = null) {
+    dispatch({ type: "TOGGLE_DELETE_ID", payload: id });
+
+    if (id) {
+      modalDelete = document.getElementById("modal-delete");
+      modalDelete.showModal();
+    }
+  }
+
   async function addTask(task) {
     try {
       const res = await fetch("/api/todos", {
@@ -83,6 +85,9 @@ function TasksProvider({ children }) {
       });
       const data = await res.json();
       dispatch({ type: "SET_TASKS", payload: data });
+
+      modalAdd = document.getElementById("modal-add");
+      modalAdd.showModal();
     } catch (err) {
       console.error(err);
       dispatch({
@@ -92,7 +97,9 @@ function TasksProvider({ children }) {
     }
   }
 
-  async function deleteTask(id) {
+  async function deleteTask() {
+    const id = taskToDeleteId;
+
     try {
       const res = await fetch(`/api/todos/${id}`, {
         method: "DELETE"
@@ -104,13 +111,18 @@ function TasksProvider({ children }) {
     }
   }
 
-  async function completeTask(id) {
+  async function updateTaskStatus(id, status) {
+    status = status === 1;
     try {
       const res = await fetch(`/api/todos/${id}`, {
-        method: "PUT"
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ status })
       });
       const data = await res.json();
-      dispatch({ type: "MARK_AS_COMPLETE", payload: data });
+      dispatch({ type: "SET_TASKS", payload: data });
     } catch (err) {
       console.error(err);
     }
@@ -120,12 +132,12 @@ function TasksProvider({ children }) {
     <TasksContext.Provider
       value={{
         tasksArr,
-        taskToDeleteId,
         errorMessage,
         isError,
         addTask,
-        deleteTask,
-        completeTask
+        toggleDeleteId,
+        updateTaskStatus,
+        deleteTask
       }}
     >
       {children}

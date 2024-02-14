@@ -31,7 +31,9 @@ router.post("/todos", async (req, res) => {
 
 router.put("/todos/:id", async (req, res) => {
   try {
-    await db(`UPDATE tasks SET completed = true WHERE id = ${req.params.id};`);
+    await db(
+      `UPDATE tasks SET completed = ${req.body.status} WHERE id = ${req.params.id};`
+    );
 
     const results = await db("SELECT * FROM tasks ORDER BY id ASC;");
 
